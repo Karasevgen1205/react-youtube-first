@@ -1,12 +1,10 @@
-import { func } from 'prop-types';
 import React, {useEffect} from 'react'
 import TodoList from './Todo/TodoList'
 import Context from './context' 
 //import AddTodo from './Todo/AddTodo'
 import Loader from './loader'
 import Modal from './Modal/Modal';
-//import logo from './logo.svg';
-//import './App.css';
+
 
 const AddTodo = React.lazy(() => import('./Todo/AddTodo'))
 
