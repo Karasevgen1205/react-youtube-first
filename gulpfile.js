@@ -64,6 +64,13 @@ function html(cd) {
         .pipe(plumber())
         .pipe(panini({
             root: srcPath,
-
+            layouts: srcPath + "layouts/",
+            partials: srcPath + "partials/",
+            helpers: srcPath + "helpers/",
+            data: srcPath + "data/"
         }))
+        .pipe(dest(path.build.html))
+        .pipe(browserSyns.reload({stream: true}));
+
+    cd();
 }
