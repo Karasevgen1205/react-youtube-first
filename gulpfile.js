@@ -172,24 +172,23 @@ function js(cd) {
 
 
 function jsWatch(cd) {
-    return src(path.src.css, {base: srcPath + "assets/scss/"})
+    return src(path.src.js, {base: srcPath + "assets/js/"})
         .pipe(plumber({
             errorHandler : function (err) {
                 notify.onError({
-                    title: "SCSS Error",
+                    title: "JS Error",
                     message: "Error: <%= error.message %>"
                 })(err);
                 this.emit("end");
             }
         }))
-        .pipe(sass({
-            includePath: "./node_modules/"
+        .pipe(webpackStream({
+            mode: "development",
+            output: {
+                filename: "app.js"
+            }
         }))
-        .pipe(rename({
-            suffix: ".min",
-            extname: ".css"
-        }))
-        .pipe(dest(path.build.css))
+        .pipe(dest(path.build.js))
         .pipe(browserSyns.reload({stream: true}));
 
     cd();
