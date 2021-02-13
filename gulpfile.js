@@ -74,3 +74,41 @@ function html(cd) {
 
     cd();
 }
+
+function css(cd) {
+    return src(path.src.css, {base: srcPath + "assets/scss/"})
+        .pipe(plumber({
+            errorHandler : function (err) {
+                notify.onError({
+                    title: "SCSS Error",
+                    message: "Error: <%= error.message %>"
+                })(err);
+                this.emit("end");
+            }
+        }))
+        .pipe(sass({
+            includePath: "./node_modules"
+        }))
+        .pipe(autoprefixer({
+            cascade: true
+        }))
+        .pipe(cssbeautify())
+        .pipe(dest(path.build.css))
+        .pipe(cssnano({
+            zindex: false,
+            discardComments: {
+                removeAll: true
+            }
+        }))
+        .pipe(removeComments())
+        .pipe(rename({
+            suffix: ".min",
+            extname: ".css"
+        }))
+        .pipe(dest(path.build.css))
+        .pipe(browserSyns.reload({stream: true}));
+
+    cd()
+}
+
+
