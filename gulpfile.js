@@ -193,3 +193,18 @@ function jsWatch(cd) {
 
     cd();
 }
+
+function images(cd) {
+    return src(path.src.images)
+        .pipe(imagemin([
+
+        ]))
+
+
+
+
+        .pipe(dest(path.build.images))
+        .pipe(browserSyns.reload({stream: true}));
+
+    cd();
+}
