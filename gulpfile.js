@@ -29,21 +29,41 @@ const path = {
         js: distPath + "assets/js/",
         css: distPath + "assets/css/",
         images: distPath + "assets/images/",
-        fonts: distPath + "assets/fonts/",
+        fonts: distPath + "assets/fonts/"
     },
     src: {
         html: srcPath + "*.html",
         js: srcPath + "assets/js/*.js",
         css: srcPath + "assets/scss/*.scss",
         images: srcPath + "assets/images/**/*.{jpg,png,svg,gif,ico,webp,webmanifest,xml,json}",
-        fonts: srcPath + "assets/fonts/**/*.{eot,woff,woff2,ttf,svg}",
+        fonts: srcPath + "assets/fonts/**/*.{eot,woff,woff2,ttf,svg}"
     },
     watch: {
         html: srcPath + "**/*.html",
         js: srcPath + "assets/js/**/*.js",
         css: srcPath + "assets/scss/**/*.scss",
         images: srcPath + "assets/images/**/*.{jpg,png,svg,gif,ico,webp,webmanifest,xml,json}",
-        fonts: srcPath + "assets/fonts/**/*.{eot,woff,woff2,ttf,svg}",
+        fonts: srcPath + "assets/fonts/**/*.{eot,woff,woff2,ttf,svg}"
     },
     clean: "./" + distPath
+}
+
+/* Tasks */
+
+function serve() {
+    browserSyns.init({
+        server: {
+            baseDir: "./" + distPath
+        }
+    })
+}
+
+function html(cd) {
+    panini.refresh();
+    return src(path.src.html, {base: srcPath})
+        .pipe(plumber())
+        .pipe(panini({
+            root: srcPath,
+
+        }))
 }
