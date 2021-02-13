@@ -197,14 +197,20 @@ function jsWatch(cd) {
 function images(cd) {
     return src(path.src.images)
         .pipe(imagemin([
-
+            imagemin.gifsicle({interlaced: true}),
+            imagemin.mozjpeg({quality: 80, progressive: true}),
+            imagemin.optipng({optimizationLevel: 5}),
+            imagemin.svgo({
+                plugins: [
+                    {removeViewBox: true},
+                    {cleanupIDs: false}
+                ]
+            })
         ]))
-
-
-
-
         .pipe(dest(path.build.images))
         .pipe(browserSyns.reload({stream: true}));
 
     cd();
 }
+
+
