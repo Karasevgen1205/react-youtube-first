@@ -72,7 +72,7 @@ function html(cd) {
         .pipe(dest(path.build.html))
         .pipe(browserSyns.reload({stream: true}));
 
-    cd();
+    cd()
 }
 
 function css(cd) {
@@ -132,7 +132,7 @@ function cssWatch(cd) {
         .pipe(dest(path.build.css))
         .pipe(browserSyns.reload({stream: true}));
 
-    cd();
+    cd()
 }
 
 function js(cd) {
@@ -167,7 +167,7 @@ function js(cd) {
         .pipe(dest(path.build.js))
         .pipe(browserSyns.reload({stream: true}));
 
-    cd();
+    cd()
 }
 
 
@@ -191,7 +191,7 @@ function jsWatch(cd) {
         .pipe(dest(path.build.js))
         .pipe(browserSyns.reload({stream: true}));
 
-    cd();
+    cd()
 }
 
 function images(cd) {
@@ -210,7 +210,29 @@ function images(cd) {
         .pipe(dest(path.build.images))
         .pipe(browserSyns.reload({stream: true}));
 
-    cd();
+    cd()
+}
+
+function fonts(cd) {
+    return src(path.src.fonts)
+        .pipe(dest(path.build.fonts))
+        .pipe(browserSyns.reload({stream: true}));
+
+    cd()
+}
+
+function clean(cd) {
+    return del(path.clean);
+
+    cd()
+}
+
+function watchFiles() {
+    gulp.watch([path.watch.html], html);
+    gulp.watch([path.watch.css], cssWatch);
+    gulp.watch([path.watch.js], jsWatch);
+    gulp.watch([path.watch.images], images);
+    gulp.watch([path.watch.fonts], fonts)
 }
 
 
