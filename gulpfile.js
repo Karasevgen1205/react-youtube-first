@@ -235,4 +235,7 @@ function watchFiles() {
     gulp.watch([path.watch.fonts], fonts)
 }
 
+const build = gulp.series(clean.gulf.parallel(html, css, js, images, fonts));
+const watch = gulp.parallel(build, watchFiles, serve);
+
 
