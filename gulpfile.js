@@ -108,11 +108,11 @@ function css(cd) {
         .pipe(dest(path.build.css))
         .pipe(browserSyns.reload({stream: true}));
 
-    cd()
+    cd();
 }
 
 function cssWatch(cd) {
-    return src(path.src.css, {base: srcPath + "assets/scss"})
+    return src(path.src.css, {base: srcPath + "assets/scss/"})
         .pipe(plumber({
             errorHandler : function (err) {
                 notify.onError({
@@ -132,5 +132,65 @@ function cssWatch(cd) {
         .pipe(dest(path.build.css))
         .pipe(browserSyns.reload({stream: true}));
 
-    cd()
+    cd();
+}
+
+function js(cd) {
+    return src(path.src.js, {base: srcPath + "assets/js/"})
+        .pipe(plumber({
+            errorHandler: function (err) {
+                notify.onError({
+                    title: "JS Error",
+                    message: "Error: <%= error.message %>"
+                })(err);
+                this.emit("end");
+            }
+        }))
+        .pipe(webpackStream({
+            mode: "production",
+            output: {
+                filename: 'app.js',
+            },
+            module: {
+                rules: [
+                    {
+                        test: /\.(js)$/,
+                        exclude: /(node_modules)/,
+                        loader: "babel-loader",
+                        query: {
+                            presets: ["@babel/preset-env"]
+                        }
+                    }
+                ]
+            }
+        }))
+        .pipe(dest(path.build.js))
+        .pipe(browserSyns.reload({stream: true}));
+
+    cd();
+}
+
+
+function jsWatch(cd) {
+    return src(path.src.css, {base: srcPath + "assets/scss/"})
+        .pipe(plumber({
+            errorHandler : function (err) {
+                notify.onError({
+                    title: "SCSS Error",
+                    message: "Error: <%= error.message %>"
+                })(err);
+                this.emit("end");
+            }
+        }))
+        .pipe(sass({
+            includePath: "./node_modules/"
+        }))
+        .pipe(rename({
+            suffix: ".min",
+            extname: ".css"
+        }))
+        .pipe(dest(path.build.css))
+        .pipe(browserSyns.reload({stream: true}));
+
+    cd();
 }
