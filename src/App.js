@@ -46,7 +46,6 @@ function App() {
     }]))
   }
 
-
   return (
     <Context.Provider value={{removeTodo: removeTodo}}>
       <div className="wrapper">
