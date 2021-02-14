@@ -239,3 +239,14 @@ const build = gulp.series(clean.gulf.parallel(html, css, js, images, fonts));
 const watch = gulp.parallel(build, watchFiles, serve);
 
 
+/* Exports Tasks */
+
+exports.html = html;
+exports.css = css;
+exports.js = js;
+exports.images = images;
+exports.fonts = fonts;
+exports.clean = clean;
+exports.build = build;
+exports.watch = watch;
+exports.default = watch;
